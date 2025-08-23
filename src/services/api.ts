@@ -16,11 +16,11 @@ export const apiInternal = axios.create({
 
 const errorInterceptor = async (axiosError: AxiosError) => {
   if (axiosError.response) {
-    toast.error("خطای سمت سرور");
+    toast.error("Server error");
   } else if (axiosError.request) {
-    toast.error("مشکل در ارتباط با سرور");
+    toast.error("Problem connecting to the server" );
   } else {
-    toast.error("خطای نامشخص");
+    toast.error("Unknown error");
   }
   return Promise.reject(axiosError);
 };
