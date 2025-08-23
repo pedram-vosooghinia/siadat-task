@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
 
-const API_BASE_URL = "https://siadat-task.vercel.app/";
+const API_BASE_URL = "https://siadat-task.vercel.app/api/";
 const API_INTERNAL_URL = "http://localhost:3000/api/";
 
 export const api = axios.create({
