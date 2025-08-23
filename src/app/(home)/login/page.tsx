@@ -1,9 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { signInServices } from "@/services/auth";
-import { SignInFormInputs } from "@/types/signIn";
-
+import { loginServices } from "@/services/auth";
+import { LoginFormInputs } from "@/types/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { loginSchema } from "@/validation/loginSchema";
@@ -16,16 +15,25 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<SignInFormInputs>({
+  } = useForm<LoginFormInputs>({
     resolver: zodResolver(loginSchema),
   });
 
-  const signInHandler = async (values: SignInFormInputs) => {
+  const loginInHandler = async (values: LoginFormInputs) => {
+    const withoutPlus = values.mobile.replace("+", "");
+
+    const country_code = withoutPlus.slice(0, 2);
+    const local_phone = withoutPlus.slice(2);
+    const data = {
+      country_code,
+      local_phone,
+      language: "Persian",
+    };
     try {
-      const res = await signInServices(values);
-      if (res.status == 201) {
-        toast.success("ثبت نام با موفقیت انجام شد ");
-        router.push("/login");
+      const res = await loginServices(data);
+      if (res.status == 200) {
+        toast.success(res.data.message);
+        router.push("/verify");
       }
     } catch (error) {
       const err = error as AxiosError;
@@ -50,7 +58,7 @@ export default function Login() {
       </div>
       <form
         className="flex flex-col w-[240px]  px-[8px] mt-[32px] "
-        onSubmit={handleSubmit(signInHandler)}
+        onSubmit={handleSubmit(loginInHandler)}
       >
         <h1 className="pb-[16px] font-bold text-[14px] ">Sign up</h1>
         <label

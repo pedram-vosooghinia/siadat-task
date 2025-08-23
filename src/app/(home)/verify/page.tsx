@@ -1,12 +1,11 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { signInServices } from "@/services/auth";
-import { SignInFormInputs } from "@/types/signIn";
-
+import { verifyServices } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import { loginSchema } from "@/validation/loginSchema";
+import { VerifyFormInputs } from "@/types/verify";
+import { verifySchema } from "@/validation/verifyShema";
 import { AxiosError } from "axios";
 export default function Verify() {
   const router = useRouter();
@@ -16,13 +15,14 @@ export default function Verify() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<SignInFormInputs>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<VerifyFormInputs>({
+    resolver: zodResolver(verifySchema),
   });
 
-  const signInHandler = async (values: SignInFormInputs) => {
+  const signInHandler = async (values: VerifyFormInputs) => {
     try {
-      const res = await signInServices(values);
+      const res = await verifyServices(values);
+      router.push("/");
       if (res.status == 201) {
         toast.success("ثبت نام با موفقیت انجام شد ");
         router.push("/login");
@@ -54,20 +54,20 @@ export default function Verify() {
       >
         <h1 className="pb-[16px] font-bold text-[14px] ">Sign up</h1>
         <label
-          htmlFor="mobile"
+          htmlFor="verifyCode"
           className="pb-[4px] text-customGray3 font-bold  text-[14px]"
         >
           Enter Code
         </label>
         <input
-          {...register("mobile", { required: "Phone Number is requried" })}
+          {...register("verifyCode", { required: "Phone Number is requried" })}
           type="text"
-          id="mobile"
-          autoComplete="tel"
+          id="verifyCode"
+          autoComplete="number"
           className="bg-customGray2 w-[240] h-[40] rounded-[12px] py-[11px] pl-[8px] font-normal text-[12px]"
         />
-        {errors.mobile && (
-          <div className="text-red-500">{errors.mobile.message}</div>
+        {errors.verifyCode && (
+          <div className="text-red-500">{errors.verifyCode.message}</div>
         )}
 
         <div className="flex justify-center items-center bg-customPurple rounded-[12px] mt-[60px]">
