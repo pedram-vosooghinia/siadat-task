@@ -25,7 +25,7 @@ export default function Verify() {
       router.push("/");
       if (res.status == 200) {
         toast.success(res.data.message);
-        router.push("/login");
+        router.push("/");
       }
     } catch (error) {
       const err = error as AxiosError;
@@ -69,7 +69,7 @@ export default function Verify() {
         {errors.verifyCode && (
           <div className="text-red-500">{errors.verifyCode.message}</div>
         )}
-        <div className="flex justify-between items-center text-customGray4 font-[12px]  ">
+        <div className="flex justify-between items-center text-customGray4 font-[12px] mt-[8px] ">
           <div>01:25</div>
           <div>Send a code again</div>
         </div>
