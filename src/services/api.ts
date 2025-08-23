@@ -1,18 +1,20 @@
 import axios, { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
 
-const API_BASE_URL = "https://siadat-task.vercel.app/api/";
-const API_INTERNAL_URL = "http://localhost:3000/api/";
+
+const API_BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://siadat-task.vercel.app/api/"
+    : "http://localhost:3000/api/";
+
+
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
   headers: { "Content-Type": "application/json" },
 });
 
-export const apiInternal = axios.create({
-  baseURL: API_INTERNAL_URL,
-  headers: { "Content-Type": "application/json" },
-});
+
 
 const errorInterceptor = async (axiosError: AxiosError) => {
   if (axiosError.response) {
@@ -26,4 +28,3 @@ const errorInterceptor = async (axiosError: AxiosError) => {
 };
 
 api.interceptors.response.use((res) => res, errorInterceptor);
-apiInternal.interceptors.response.use((res) => res, errorInterceptor);
