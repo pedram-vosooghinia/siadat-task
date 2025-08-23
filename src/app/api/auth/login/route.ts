@@ -2,7 +2,6 @@ import { NextResponse, NextRequest } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
-    console.log("mo", data);
     if (!data)
       return NextResponse.json(
         {

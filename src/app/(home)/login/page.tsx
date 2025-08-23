@@ -39,7 +39,7 @@ export default function Login() {
       const err = error as AxiosError;
       const message =
         (err.response?.data as { message?: string })?.message ||
-        "خطایی رخ داده است";
+        "An error has occurred";
       toast.error(message);
     } finally {
       reset();
@@ -49,10 +49,10 @@ export default function Login() {
   return (
     <div className="flex flex-col justify-center items-center bg-white/10 backdrop-blur-[40px]">
       <div className="p-[8px] rounded-[16px]  pt-[56px] pb-[148px]">
-        <div className="font-nunito font-bold text-[24px] leading-[36px] text-customBlack">
+        <div className=" font-bold text-[24px] leading-[36px] text-customBlack">
           AI Support, Anytime
         </div>
-        <div className="font-nunito font-normal text-[16px] leading-[24px] text-customGray">
+        <div className=" font-normal text-[16px] leading-[24px] text-customGray">
           Quick answers to your questions
         </div>
       </div>
@@ -63,7 +63,7 @@ export default function Login() {
         <h1 className="pb-[16px] font-bold text-[14px] ">Sign up</h1>
         <label
           htmlFor="mobile"
-          className="pb-[4px] text-customGray3 font-bold  text-[14px]"
+          className=" pb-[4px] text-customGray3 font-bold  text-[14px]"
         >
           Enter Phone Number
         </label>
@@ -82,7 +82,7 @@ export default function Login() {
         <div className="flex justify-center items-center bg-customPurple rounded-[12px] mt-[60px]">
           <button
             type="submit"
-            className="w-[240px] h-[40px] text-white rounded-[12px]"
+            className=" w-[240px] h-[40px] text-white rounded-[12px]"
           >
             Get code
           </button>

@@ -20,10 +20,10 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center bg-customPurple rounded-[12px] mt-[264px] mx-[84px] ">
+    <div className=" flex justify-center items-center  rounded-[12px] mt-[264px] mx-[84px]  ">
       <button
         onClick={handleLogout}
-        className="w-[152px] h-[40px] text-white rounded-[12px]"
+        className="w-[152px] h-[40px] flex-shrink-0 bg-customPurple text-white rounded-[12px]"
       >
         Logout
       </button>

@@ -23,15 +23,15 @@ export default function Verify() {
     try {
       const res = await verifyServices(values);
       router.push("/");
-      if (res.status == 201) {
-        toast.success("ثبت نام با موفقیت انجام شد ");
+      if (res.status == 200) {
+        toast.success(res.data.message);
         router.push("/login");
       }
     } catch (error) {
       const err = error as AxiosError;
       const message =
         (err.response?.data as { message?: string })?.message ||
-        "خطایی رخ داده است";
+        "error, please try again";
       toast.error(message);
     } finally {
       reset();
@@ -41,10 +41,10 @@ export default function Verify() {
   return (
     <div className="flex flex-col justify-center items-center bg-white/10 backdrop-blur-[40px]">
       <div className="p-[8px] rounded-[16px]  pt-[56px] pb-[148px]">
-        <div className="font-nunito font-bold text-[24px] leading-[36px] text-customBlack">
+        <div className=" font-bold text-[24px] leading-[36px] text-customBlack">
           Connect with Moms
         </div>
-        <div className="font-nunito font-normal text-[16px] leading-[24px] text-customGray">
+        <div className=" font-normal text-[16px] leading-[24px] text-customGray">
           Share and learn with others
         </div>
       </div>
@@ -69,7 +69,10 @@ export default function Verify() {
         {errors.verifyCode && (
           <div className="text-red-500">{errors.verifyCode.message}</div>
         )}
-
+        <div className="flex justify-between items-center text-customGray4 font-[12px]  ">
+          <div>01:25</div>
+          <div>Send a code again</div>
+        </div>
         <div className="flex justify-center items-center bg-customPurple rounded-[12px] mt-[60px]">
           <button
             type="submit"

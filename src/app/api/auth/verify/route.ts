@@ -4,7 +4,6 @@ import { cookies } from "next/headers";
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
-    console.log("mo", data);
     if (!data.verifyCode)
       return NextResponse.json(
         {
