@@ -1,4 +1,6 @@
 "use client";
+import { useEffect, useState } from "react";
+
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { verifyServices } from "@/services/auth";
@@ -9,7 +11,8 @@ import { verifySchema } from "@/validation/verifyShema";
 import { AxiosError } from "axios";
 export default function Verify() {
   const router = useRouter();
-
+  const [timeLeft, setTimeLeft] = useState(90); 
+  
   const {
     register,
     handleSubmit,
@@ -19,7 +22,16 @@ export default function Verify() {
     resolver: zodResolver(verifySchema),
   });
 
-  const signInHandler = async (values: VerifyFormInputs) => {
+  useEffect(() => {
+    if (timeLeft <= 0) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+  const verifyHandler = async (values: VerifyFormInputs) => {
     try {
       const res = await verifyServices(values);
       router.push("/");
@@ -38,6 +50,18 @@ export default function Verify() {
     }
   };
 
+   const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, "0");
+    const s = (seconds % 60).toString().padStart(2, "0");
+    return `${m}:${s}`;
+  };
+    const resendCode = () => {
+    toast.success("Code sent again ✅");
+    setTimeLeft(90); 
+      };
+
   return (
     <div className="flex flex-col justify-center items-center bg-white/10 backdrop-blur-[40px]">
       <div className="p-[8px] rounded-[16px]  pt-[56px] pb-[148px]">
@@ -50,7 +74,7 @@ export default function Verify() {
       </div>
       <form
         className="flex flex-col w-[240px]  px-[8px] mt-[32px] "
-        onSubmit={handleSubmit(signInHandler)}
+        onSubmit={handleSubmit(verifyHandler)}
       >
         <h1 className="pb-[16px] font-bold text-[14px] ">Sign up</h1>
         <label
@@ -70,8 +94,20 @@ export default function Verify() {
           <div className="text-red-500">{errors.verifyCode.message}</div>
         )}
         <div className="flex justify-between items-center text-customGray4 font-[12px] mt-[8px] ">
-          <div>01:25</div>
-          <div>Send a code again</div>
+       <div>{formatTime(timeLeft)}</div>
+          {timeLeft > 0 ? (
+            <div className="opacity-50 cursor-not-allowed">
+              Send a code again
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={resendCode}
+              className="text-customPurple underline cursor-pointer"
+            >
+              Send a code again
+            </button>
+          )}
         </div>
         <div className="flex justify-center items-center bg-customPurple rounded-[12px] mt-[60px]">
           <button
