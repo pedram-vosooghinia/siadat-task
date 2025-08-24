@@ -1,8 +1,13 @@
 import axios, { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
 
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? process.env.NEXT_PUBLIC_API_BASE_URL_PROD
+    : process.env.NEXT_PUBLIC_API_BASE_URL;
+
 export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  baseURL: BASE_URL,
   headers: { "Content-Type": "application/json" },
 });
 
